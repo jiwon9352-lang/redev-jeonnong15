@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전농15 · 정비사업 현황 대시보드</title>
+<meta name="description" content="전농15구역 재개발(신속통합기획) 진행현황·일정·고시공고·소식지를 한 화면에서 제공하는 정비사업 현황 대시보드.">
+<meta property="og:title" content="전농15 · 정비사업 현황 대시보드">
+<meta property="og:description" content="전농15구역 재개발 진행현황·소유자 TO-DO·고시공고·구역 소식지 대시보드">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css">
+<style>
+:root{
+ --bg0:#0A0F1F; --card:#161C32; --card2:#1C2340;
+ --bd:rgba(255,255,255,.09); --bd2:rgba(255,255,255,.055);
+ --t1:#EEF1FA; --t2:#AAB3CF; --t3:#79849F;
+ --acc:#6E8BFF; --acc-t:#AEC0FF; --accg:linear-gradient(135deg,#5B86F0,#9B7BFF);
+ --acc-weak:rgba(110,139,255,.16);
+ --red:#FF6B82; --red-t:#FF98A8; --red-weak:rgba(255,107,130,.16);
+ --teal:#34D399;
+ /* 라이트(라벤더 톤) 서브블록 */
+ --w-bg:#EBEEF9; --w-bd:#D9DEF1; --w-t1:#2E3A52; --w-t2:#4A5571; --w-t3:#8089A3; --w-acc:#3B5BDB;
+ --r:20px; --sh:0 10px 30px rgba(5,8,22,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard','Pretendard Variable',-apple-system,'Apple SD Gothic Neo',system-ui,sans-serif;
+ color:var(--t1);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;
+ background:var(--bg0);
+ background-image:radial-gradient(1000px 540px at 86% -10%,rgba(124,108,255,.22),transparent 60%),
+                  radial-gradient(880px 460px at -12% 2%,rgba(59,130,246,.16),transparent 60%);
+ background-attachment:fixed;min-height:100vh}
+a{color:var(--acc-t);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.demo-banner{background:rgba(255,176,32,.10);color:#F4C56B;font-size:12.5px;text-align:center;padding:8px 12px;border-bottom:1px solid var(--bd2)}
+header{position:sticky;top:0;z-index:40;background:rgba(11,15,30,.62);backdrop-filter:blur(14px);
+ border-bottom:1px solid var(--bd2);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo .nm{font-size:22px;font-weight:800;letter-spacing:-.04em;color:var(--t1)}
+.logo .nm b{background:var(--accg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo .sub{font-weight:600;font-size:13px;color:var(--t3);letter-spacing:-.01em}
+.wrap{max-width:920px;margin:0 auto;padding:26px 22px 64px}
+
+/* hero */
+.dhead{position:relative;border-radius:var(--r);padding:26px;margin-bottom:16px;overflow:hidden;
+ background:linear-gradient(135deg,rgba(91,134,240,.26),rgba(155,123,255,.18)),var(--card2);
+ border:1px solid var(--bd);box-shadow:var(--sh)}
+.dhead::after{content:"";position:absolute;top:-40px;right:-30px;width:200px;height:200px;border-radius:50%;
+ background:radial-gradient(circle,rgba(155,123,255,.35),transparent 65%);pointer-events:none}
+.dhead h1{font-size:25px;font-weight:800;letter-spacing:-.03em;color:#fff;position:relative}
+.dhead .loc{font-size:13.5px;color:var(--t2);margin-top:4px;position:relative}
+.badges{display:flex;gap:7px;margin-top:13px;flex-wrap:wrap;position:relative}
+.badge{font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid transparent}
+.b-type{background:var(--acc-weak);color:var(--acc-t);border-color:rgba(110,139,255,.34)}
+.b-stage{background:var(--red-weak);color:var(--red-t);border-color:rgba(255,107,130,.34)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:10px;margin-top:22px;position:relative}
+.stat{background:rgba(255,255,255,.06);border:1px solid var(--bd2);border-radius:14px;padding:14px 15px;backdrop-filter:blur(4px)}
+.stat .v{font-size:18px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.stat .l{font-size:12px;color:var(--t3);margin-top:3px;font-weight:500}
+
+/* 소유자 TODO 강조 블록 */
+.todo-block{border:1px solid rgba(110,139,255,.4)!important;background-image:linear-gradient(180deg,rgba(110,139,255,.12),transparent 55%);margin-bottom:16px}
+
+/* tabs */
+.tabs{display:flex;gap:7px;margin:18px 2px 16px;flex-wrap:wrap}
+.tab{padding:9px 17px;border-radius:999px;font-weight:700;font-size:14px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--bd2);transition:.15s}
+.tab:hover{color:var(--t1);background:rgba(255,255,255,.09)}
+.tab.on{color:#fff;background:var(--accg);border-color:transparent;box-shadow:0 6px 18px rgba(110,139,255,.4)}
+.cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:22px;box-shadow:var(--sh);
+ background-image:linear-gradient(180deg,rgba(255,255,255,.045),transparent 40%)}
+.box h4{font-size:14px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:7px;color:var(--t1);flex-wrap:wrap}
+.box h4.bigh{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.box h4 .src{margin-left:auto;font-size:11px;color:var(--t3);font-weight:500}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd2);font-size:14px;color:var(--t2)}
+.row:last-child{border:none}.row b{color:var(--t1);font-weight:700}
+
+/* timeline */
+.tl{list-style:none;position:relative;padding-left:6px}
+.tl li{position:relative;padding:0 0 26px 30px;border-left:2px solid rgba(255,255,255,.12)}
+.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+.tl li .dot{position:absolute;left:-8px;top:1px;width:15px;height:15px;border-radius:50%;background:var(--card);border:2.5px solid rgba(255,255,255,.18);z-index:2}
+.tl li.done .dot{background:var(--acc);border-color:var(--acc)}
+.tl li.now .dot{background:var(--acc);border-color:var(--acc);box-shadow:0 0 0 5px var(--acc-weak)}
+.stagebtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:0;cursor:pointer}
+.stagebtn .t{font-weight:700;font-size:15.5px;color:var(--t1)}
+.stagebtn .d{font-size:12.5px;color:var(--t3)}
+.stagebtn .chev{margin-left:auto;color:var(--acc-t);font-size:13px;font-weight:700}
+.stagebtn:hover .t{color:var(--acc-t)}
+.tl li.now .stagebtn .d{color:var(--acc-t);font-weight:700}
+.tl li.todo .stagebtn .t{color:var(--t3);font-weight:600}
+.tl li.todo .stagebtn .chev{color:var(--t3)}
+.stagedetail{margin-top:10px}
+
+/* === 라이트 서브블록(일정 블록) — 타임라인 막대 위로, 폰트 통일 === */
+.stagesub{position:relative;z-index:1;background:var(--w-bg);border:1px solid var(--w-bd);border-radius:14px;padding:14px 16px;box-shadow:0 4px 14px rgba(5,8,22,.22)}
+.tl .stagesub{margin-left:-30px}
+.stagesub .ssub-h{font-size:11.5px;font-weight:700;color:var(--w-t3);margin-bottom:9px;letter-spacing:.02em}
+.evrow{display:flex;gap:11px;padding:5px 0;font-size:13px;color:var(--w-t2);font-weight:500;align-items:baseline}
+.evrow .ed{color:var(--w-acc);font-weight:700;min-width:92px;font-size:14px}
+.schd{width:100%;border-collapse:collapse}
+.schd td{padding:9px 6px;vertical-align:middle;font-size:13px;color:var(--w-t2);font-weight:500;border-bottom:1px solid var(--w-bd)}
+.schd tr:last-child td{border:none}
+.schd td.dt{white-space:nowrap;width:132px;color:var(--w-acc);font-weight:700;font-size:14px}
+.nn-w{font-size:11.5px;color:var(--w-t3);margin-top:2px;font-weight:500}
+.time-note{font-size:11px;color:var(--w-t3);font-weight:500;margin-top:4px}
+.st{font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;margin-left:6px}
+.st.done{background:#E3ECFD;color:#2563EB}
+.st.now{background:#FCE4EA;color:#D6336C}
+.st.todo{background:#E7EAF3;color:#7C879F}
+.dday{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:7px;background:#E3ECFD;color:#2563EB;margin-right:0;letter-spacing:.02em}
+.dday.urgent{background:#FCE4EA;color:#D6336C}
+
+/* notices */
+.pin{background:var(--acc-weak);border:1px solid rgba(110,139,255,.36);border-radius:14px;padding:14px 16px;margin-bottom:8px}
+.pin .pinlbl{font-size:11px;font-weight:800;color:var(--acc-t);letter-spacing:.03em;margin-bottom:6px}
+.notice{display:flex;gap:12px;padding:14px 2px;border-bottom:1px solid var(--bd2)}
+.notice:last-child{border:none}
+.nt{font-size:11.5px;font-weight:700;color:#fff;background:var(--acc);border-radius:7px;padding:3px 9px;height:fit-content;white-space:nowrap}
+.nt.gosi{background:var(--red)}.nt.gyul{background:var(--teal);color:#06281C}.nt.gyeong{background:rgba(255,255,255,.16)}.nt.news{background:rgba(255,255,255,.16)}
+.notice .ti{font-weight:600;font-size:14.5px;color:var(--t1);line-height:1.45}
+.notice .ti:hover{color:var(--acc-t)}
+.notice .mt{font-size:12px;color:var(--t3);margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.srcpill{font-size:11px;color:var(--acc-t);background:var(--acc-weak);border:1px solid rgba(110,139,255,.3);padding:2px 8px;border-radius:6px;font-weight:600}
+.emptynote{font-size:13px;color:var(--t3);background:rgba(255,255,255,.04);border:1px solid var(--bd2);border-radius:12px;padding:13px 15px;margin-top:14px;line-height:1.6}
+
+/* newsletter album */
+.uploader{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:12px;background:var(--accg);
+ color:#fff;font-weight:700;font-size:14px;margin-bottom:16px;box-shadow:0 6px 16px rgba(110,139,255,.38);transition:.15s}
+.uploader:hover{filter:brightness(1.08)}
+.album-main{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--bd);box-shadow:var(--sh)}
+.album-main img{width:100%;max-height:440px;object-fit:cover;display:block;cursor:zoom-in}
+.album-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;font-size:12.5px;color:#EAEFFF;font-weight:600;
+ background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.album-strip{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.album-thumb{position:relative;flex:0 0 86px;height:86px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:.15s}
+.album-thumb.sel{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-weak)}
+.album-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.nl-del{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.6);
+ color:#fff;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
+.nl-del:hover{background:var(--red)}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:90;display:flex;align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
+.lb-box{max-width:760px;max-height:92vh;display:flex;flex-direction:column;gap:12px}
+.lb-box img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:10px}
+.lb-cap{background:#fff;color:#33415C;padding:13px 16px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;max-height:22vh;overflow:auto}
+footer{text-align:center;color:var(--t3);font-size:11.5px;padding:28px 20px;line-height:1.8;border-top:1px solid var(--bd2);margin-top:20px}
+footer .ft-mail{margin-top:10px;color:var(--t2)}
+</style>
+</head>
+<body>
+<div class="demo-banner">⚙️ 데모 — 기본정보·진행현황은 샘플, <b>고시/공고는 정비몽땅·서울정보소통광장 실제 데이터</b>로 연결됩니다(검증된 원문만 노출).</div>
+<header>
+  <div class="logo"><span class="nm">전농<b>15</b></span><span class="sub">정비사업 현황 대시보드</span></div>
+</header>
+
+<div class="wrap">
+  <div id="dash"></div>
+</div>
+
+<footer>
+  <div><b>데이터 출처 및 수집 주기</b></div>
+  <div>정비사업 정보몽땅(고시/공고) · 일 1회 &nbsp;|&nbsp; 서울정보소통광장(결재문서) · 일 1회 &nbsp;|&nbsp; 진행현황·기본정보(정비몽땅·서울주택정보마당) · 주 1회</div>
+  <div class="ft-mail">웹페이지 오류 수정/제안 : yulauren20@gmail.com</div>
+</footer>
+
+<script>
+/* =========================================================
+   DATA LAYER — 전농15 단일 구역. 확장 시 REGIONS 추가 + CURRENT_ID 변경.
+   ========================================================= */
+const REGIONS=[
+ { id:"jn15", name:"전농15구역", gu:"동대문구", dong:"전농동", bjd:"11230",
+   type:"신속통합기획", stageLabel:"구역지정 준비 중",
+   area:68351, owners:912, baseDate:"2022.01.28",
+   units:{total:898,multi:677,single:221}, aged:{now:76,y5:79,y10:88}, road:72, smallLot:34, semiBase:65,
+   timeline:[
+     ["대상지선정","2023.11.24","done"],
+     ["정비구역지정","",,"now"],
+     ["추진위원회 승인","",,"now"],
+     ["조합설립인가","",,"todo"],
+     ["사업시행인가","",,"todo"],
+     ["관리처분인가","",,"todo"],
+     ["착공","",,"todo"]
+   ],
+   /* 단계별 종합일정(날짜순) — 출처: 6월 주민설명회 자료(p.7) */
+   stageEvents:{
+     "대상지선정":[
+       {d:"2023.07", t:"신속통합기획 후보지 신청"},
+       {d:"2023.11", t:"신속통합기획 후보지 선정 (조건부)"},
+       {d:"2025.08", t:"신속통합기획 후보지 선정위원회 (조건부 동의)"}
+     ],
+     "정비구역지정":[
+       {d:"2024.12", t:"정비계획 수립·정비구역 지정 용역 착수"},
+       {d:"2025.06", t:"개략 계획(안) 주민설명회 개최"}
+     ]
+   },
+   /* '추진위원회 승인' 세부일정(날짜순) — status는 start/end·오늘 비교 자동 산정, D-day는 end 기준 */
+   prepSchedule:[
+     {step:"신통기획 자문회의·추진위 구성 공공지원 용역 착수", date:"2026.03.20", start:"2026-03-20", end:"2026-03-20"},
+     {step:"주민설명회", date:"2026.06.12", start:"2026-06-12", end:"2026-06-12"},
+     {step:"후보자 모집 공고·등록", date:"2026.06.22~07.07", start:"2026-06-22", end:"2026-07-07"},
+     {step:"선거인명부 열람", date:"2026.06.22~07.08", start:"2026-06-22", end:"2026-07-08"},
+     {step:"후보자 합동연설회", date:"2026.08.05", start:"2026-08-05", end:"2026-08-05"},
+     {step:"예비추진위원장·예비감사 선거", date:"2026.08.08", start:"2026-08-08", end:"2026-08-08"},
+     {step:"조합설립추진위 구성 동의서 징구", date:"2026.08~09", start:"2026-08-01", end:"2026-09-30", firm:false},
+     {step:"추진위원회 승인(예정)", date:"2026.10월 말", start:"2026-10-25", end:"2026-10-31", firm:false}
+   ],
+   /* 소유자 TODO — due=마감일. 전 항목 마감 경과 시 상단 블록 자동 비표시 */
+   residentTodos:[
+     {t:"선거인명부 열람·확인", d:"2026.06.22~07.08", due:"2026-07-08", note:"공동소유자는 대표소유자 선임동의서 제출"},
+     {t:"후보자 합동연설회 참석", d:"2026.08.05", time:"15:00", due:"2026-08-05", note:"장소 추후 통지 · 단독출마 시 생략"},
+     {t:"예비추진위원장·감사 선거 참여", d:"2026.08.08", time:"09:00~18:00", due:"2026-08-08", note:"단독 출마 시 무투표 당선"},
+     {t:"조합설립추진위 구성 동의서 제출", d:"2026.08~09월", due:"2026-09-30", firm:false, note:"신분증 사본 등 첨부 · 공공지원 사무실/우편"}
+   ],
+   contact:{ body:"(가칭)전농15구역 재개발 추진준비위원회", head:"김완수", pm:"(주)부동산써브에스앤이",
+             office:"동대문구 망우로 18, 1층", tel:"02-2244-1346", cafe:"https://cafe.naver.com/jeonnong15" },
+   notices:[
+     {cat:"공지", date:"2026-06-04", title:"재개발사업 조합설립추진위원회 구성을 위한 주민설명회 개최 알림(전농동 152-65번지 일대)",
+      by:"정비몽땅 · 구청(공공지원자) 공지", real:true,
+      url:"https://cleanup.seoul.go.kr/assc/bbs-use/vscrGnrl.do?cafeId=230900001492G47&bbsSn=13465&cpage=1&searchCode=&searchValue=&streSttusCode=0&nttSn=176124&menuId=100"},
+     {cat:"결재", date:"2026-06-11", title:"전농제15구역 주택정비형 재개발사업 관련 결재문서",
+      by:"서울정보소통광장 · 결재문서", real:true,
+      url:"https://opengov.seoul.go.kr/sanction/35366672"},
+     {cat:"결재", date:"2026-05-27", title:"전농제15구역 정비계획 수립 관련 검토 (결재)",
+      by:"서울정보소통광장 · 결재문서 검색",
+      url:"https://opengov.seoul.go.kr/sanction?search="+encodeURIComponent("전농제15구역")},
+     {cat:"경과", date:"", title:"전농15구역 추진경과·사업개요 (정비몽땅 원문)",
+      by:"정비몽땅 조합 카페", real:true,
+      url:"https://cleanup.seoul.go.kr/cafe/mainIndx.do?cafeUrl=wjsshd15"}
+   ]
+ }
+];
+const CURRENT_ID="jn15";
+
+/* ===== STATE ===== */
+const $=s=>document.querySelector(s);
+const get=id=>REGIONS.find(r=>r.id===id);
+let tab="진행현황";
+let albumSel=0;
+
+function fmtDate(d){ if(!d) return ""; d=String(d).trim().replace(/[-/]/g,".").replace(/\.+$/,""); return d; }
+function cleanText(t){ return String(t).replace(/\s*[\(（]\s*\d{1,2}\s*\/\s*\d{1,2}\s*[\)）]\s*$/,"").trim(); }
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function schedStatus(it){ const T=todayISO();
+  if(it.end && it.end < T) return "done";
+  if(it.start && it.start <= T && (!it.end || T <= it.end)) return "now";
+  return "todo"; }
+/* D-day는 '마감일(end/due)' 기준 */
+function dday(iso){ if(!iso) return null;
+  const t=new Date(todayISO()+"T00:00:00"), d=new Date(iso+"T00:00:00");
+  return Math.round((d-t)/86400000); }
+function ddayBadge(iso){ const n=dday(iso); if(n===null||n<0) return "";
+  if(n===0) return `<span class="dday urgent">D-DAY</span>`;
+  return `<span class="dday ${n<=7?"urgent":""}">D-${n}</span>`; }
+function toggleStage(i){ const d=document.getElementById("sd-"+i); if(!d) return;
+  const open=d.style.display!=="none"; d.style.display=open?"none":"block";
+  const c=document.getElementById("chev-"+i); if(c) c.textContent=open?"▸":"▾"; }
+let news=[]; try{ news=JSON.parse(localStorage.getItem("jn15_news")||"[]"); }catch(e){}
+function saveNews(){ try{ localStorage.setItem("jn15_news",JSON.stringify(news)); }catch(e){} }
+
+/* 추진 주체·문의 (진행현황 맨 아래) */
+function contactBox(r){ return `<div class="box" style="margin-top:14px"><h4>추진 주체 · 문의</h4>
+    <div class="row"><span>추진주체</span><b>${r.contact.body}</b></div>
+    <div class="row"><span>준비위원장</span><b>${r.contact.head}</b></div>
+    <div class="row"><span>정비사업전문관리업체</span><b>${r.contact.pm} (선정·계약 완료)</b></div>
+    <div class="row"><span>사무실</span><b>${r.contact.office}</b></div>
+    <div class="row"><span>연락처</span><b>${r.contact.tel}</b></div>
+    <div class="row"><span>네이버 카페</span><b><a href="${r.contact.cafe}" target="_blank" rel="noopener">cafe.naver.com/jeonnong15 ↗</a></b></div></div>`; }
+
+/* 소유자 TO-DO Checklist (상단) — 진행현황 일정 규격(좌:일정 / 우:D-day). 전 항목 마감 경과 시 비표시 */
+function ownerTodoBlock(r){
+  const T=todayISO();
+  const active=r.residentTodos.filter(t=>!t.due || t.due>=T);
+  if(!active.length) return "";
+  const rows=active.map(t=>`<tr><td class="dt">${fmtDate(t.d)}</td><td>${cleanText(t.t)}<div class="nn-w">${t.note}</div></td><td style="text-align:right;white-space:nowrap">${t.firm===false?"":ddayBadge(t.due)}${t.time?`<div class="time-note">${t.time}</div>`:""}</td></tr>`).join("");
+  return `<div class="box todo-block"><h4 class="bigh">소유자 TO-DO Checklist</h4>
+    <div class="stagesub"><table class="schd">${rows}</table></div></div>`;
+}
+
+/* ===== RENDER ===== */
+function renderDash(){
+  const r=get(CURRENT_ID);
+  $("#dash").innerHTML=`
+   <div class="dhead">
+     <h1>${r.name}</h1>
+     <div class="loc">${r.gu} · ${r.dong} · 권리산정기준일 ${r.baseDate}</div>
+     <div class="badges"><span class="badge b-type">${r.type}</span><span class="badge b-stage">${r.stageLabel}</span></div>
+     <div class="stats">
+       <div class="stat"><div class="v">${r.stageLabel}</div><div class="l">진행단계</div></div>
+       <div class="stat"><div class="v">${r.aged.now}%</div><div class="l">노후도(현재)</div></div>
+       <div class="stat"><div class="v">${r.owners.toLocaleString()}명</div><div class="l">토지등소유자</div></div>
+       <div class="stat"><div class="v">${(r.area/10000).toFixed(1)}만㎡</div><div class="l">구역면적</div></div>
+       <div class="stat"><div class="v">${r.units.total.toLocaleString()}</div><div class="l">전체 세대수</div></div>
+     </div>
+   </div>
+   ${ownerTodoBlock(r)}
+   <div class="tabs">${["진행현황","개요","고시·공고","구역 소식지"].map(t=>`<button class="tab ${t===tab?'on':''}" onclick="setTab('${t}')">${t}</button>`).join("")}</div>
+   <div id="pane"></div>`;
+  renderPane();
+}
+function setTab(t){ tab=t; document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.textContent.trim()===t)); renderPane(); }
+
+function renderPane(){
+  const r=get(CURRENT_ID); let h="";
+
+  if(tab==="진행현황"){
+    const SE=r.stageEvents||{};
+    const stageDetail=(name)=>{
+      if(name==="추진위원회 승인"){
+        const rows=r.prepSchedule.map(s=>{const st=schedStatus(s);return `<tr><td class="dt">${s.date}</td><td>${s.step}</td><td style="text-align:right;white-space:nowrap">${s.firm===false?"":ddayBadge(s.end)}<span class="st ${st}">${st==="done"?"완료":st==="now"?"진행":"예정"}</span></td></tr>`;}).join("");
+        return `<div class="stagesub"><div class="ssub-h">추진위원회 구성 일정</div><table class="schd">${rows}</table></div>`;
+      }
+      const evs=SE[name];
+      if(evs&&evs.length) return `<div class="stagesub"><div class="ssub-h">구역 자체 종합일정</div>${evs.map(e=>`<div class="evrow"><span class="ed">${fmtDate(e.d)}</span><span>${cleanText(e.t)}</span></div>`).join("")}</div>`;
+      return `<div class="stagesub"><div class="ssub-h" style="margin:0">등록된 세부 일정이 없습니다.</div></div>`;
+    };
+    const hasDetail=(name)=> name==="추진위원회 승인" || (SE[name]&&SE[name].length);
+    h=`<div class="box"><h4 class="bigh">진행현황 타임라인 <span class="src">단계 클릭 시 세부일정</span></h4>
+       <ul class="tl">${r.timeline.map((t,i)=>{
+          const cls=t[2]==="done"?"done":t[3]==="now"?"now":"todo";
+          const dtxt = t[1] || (cls==="now"?"준비 중":"예정");
+          const open = hasDetail(t[0]);
+          return `<li class="${cls}"><span class="dot"></span>
+            <button class="stagebtn" onclick="toggleStage(${i})"><span class="t">${t[0]}</span><span class="d">${dtxt}</span><span class="chev" id="chev-${i}">${open?"▾":"▸"}</span></button>
+            <div class="stagedetail" id="sd-${i}" style="display:${open?"block":"none"}">${stageDetail(t[0])}</div></li>`;
+       }).join("")}</ul></div>`;
+    h+=contactBox(r);
+  }
+
+  else if(tab==="개요"){
+    h=`<div class="cards2">
+      <div class="box"><h4>기본 정보</h4>
+        <div class="row"><span>구역면적</span><b>${r.area.toLocaleString()} ㎡</b></div>
+        <div class="row"><span>토지등소유자</span><b>${r.owners.toLocaleString()} 명</b></div>
+        <div class="row"><span>권리산정기준일</span><b>${r.baseDate}</b></div>
+        <div class="row"><span>사업종류</span><b>${r.type}</b></div></div>
+      <div class="box"><h4>세대 현황</h4>
+        <div class="row"><span>전체 세대수</span><b>${r.units.total.toLocaleString()}</b></div>
+        <div class="row"><span>공동주택</span><b>${r.units.multi.toLocaleString()} (${Math.round(r.units.multi/r.units.total*100)}%)</b></div>
+        <div class="row"><span>단독주택</span><b>${r.units.single.toLocaleString()} (${Math.round(r.units.single/r.units.total*100)}%)</b></div></div>
+      <div class="box"><h4>노후도 (30년 기준)</h4>
+        <div class="row"><span>현재</span><b>${r.aged.now}%</b></div>
+        <div class="row"><span>5년 후</span><b>${r.aged.y5}%</b></div>
+        <div class="row"><span>10년 후</span><b>${r.aged.y10}%</b></div></div>
+      <div class="box"><h4>개발 여건</h4>
+        <div class="row"><span>접도율</span><b>${r.road}%</b></div>
+        <div class="row"><span>과소필지</span><b>${r.smallLot}%</b></div>
+        <div class="row"><span>반지하 비율</span><b>${r.semiBase}%</b></div></div>
+    </div>`;
+  }
+
+  else if(tab==="고시·공고"){
+    const byDate=(a,b)=>(b.date||"0000-00-00").localeCompare(a.date||"0000-00-00");
+    const pinned=r.notices.filter(n=>n.cat==="공지").sort(byDate)[0]||null;
+    const rest=r.notices.filter(n=>n!==pinned).sort(byDate);
+    const tagCls=c=>c==="고시"?"gosi":c==="결재"?"gyul":c==="경과"?"gyeong":c==="뉴스"?"news":"";
+    const rowHtml=n=>`<div class="notice"><span class="nt ${tagCls(n.cat)}">${n.cat}</span><div style="flex:1">
+        <a class="ti" href="${n.url}" target="_blank" rel="noopener">${n.title}</a>
+        <div class="mt">${n.date?`<span>${n.date}</span>·`:''}<span>${n.by}</span>${n.real?'<span class="srcpill">원문 ↗</span>':''}</div></div></div>`;
+    h=`<div class="box"><h4>고시 · 공고 · 결재</h4>`;
+    if(pinned){ h+=`<div class="pin"><div class="pinlbl">📌 최신 공지 고정</div>${rowHtml(pinned)}</div>`; }
+    h+=rest.map(rowHtml).join("");
+    h+=`</div>`;
+  }
+
+  else if(tab==="구역 소식지"){
+    h=`<div class="box"><h4>구역 소식지</h4>
+       <label class="uploader">＋ 사진 추가<input type="file" accept="image/*" multiple hidden onchange="addPhotos(this)"></label>`;
+    if(news.length){
+      if(albumSel>=news.length) albumSel=0;
+      const f=news[albumSel];
+      h+=`<div class="album">
+        <div class="album-main"><img src="${f.url}" onclick="lightbox('${f.id}')" alt="소식지"><div class="album-cap">${f.date} · 사진 ${news.length}장 · 사진을 누르면 설명이 보입니다</div></div>
+        <div class="album-strip">${news.map((n,idx)=>`
+          <div class="album-thumb ${idx===albumSel?'sel':''}" onclick="albumSel=${idx};renderPane()">
+            <img src="${n.url}" alt="">
+            <button class="nl-del" title="삭제" onclick="event.stopPropagation();delPhoto('${n.id}')">×</button>
+          </div>`).join("")}</div>
+      </div>`;
+    } else {
+      h+=`<div class="emptynote">아직 등록된 소식지가 없습니다. ‘＋ 사진 추가’로 소식지 이미지를 올리면 앨범 미리보기로 표시됩니다. 업로드 시 설명(500자 이내)을 입력하면 사진 클릭 시 보입니다.</div>`;
+    }
+    h+=`</div>`;
+  }
+
+  $("#pane").innerHTML=h;
+}
+
+/* ===== 소식지 사진 ===== */
+function addPhotos(input){
+  const files=[...input.files]; if(!files.length) return;
+  let cap=prompt("이 소식지에 대한 설명을 입력하세요 (500자 이내, 선택)")||"";
+  cap=cap.slice(0,500);
+  let pending=files.length;
+  files.forEach(f=>{
+    if(!f.type.startsWith("image/")){ pending--; return; }
+    const rd=new FileReader();
+    rd.onload=e=>{ news.unshift({id:String(Date.now())+Math.floor(Math.random()*1000), date:new Date().toISOString().slice(0,10), url:e.target.result, cap:cap});
+      pending--; if(pending<=0){ albumSel=0; saveNews(); renderPane(); } };
+    rd.readAsDataURL(f);
+  });
+  input.value="";
+}
+function delPhoto(id){ if(!confirm("이 소식지 사진을 삭제할까요?")) return;
+  news=news.filter(n=>n.id!==id); if(albumSel>=news.length) albumSel=Math.max(0,news.length-1);
+  saveNews(); renderPane(); }
+function lightbox(id){ const n=news.find(x=>x.id===id); if(!n) return;
+  const o=document.createElement("div"); o.className="lb"; o.onclick=()=>o.remove();
+  const box=document.createElement("div"); box.className="lb-box";
+  const img=document.createElement("img"); img.src=n.url; box.appendChild(img);
+  if(n.cap){ const c=document.createElement("div"); c.className="lb-cap"; c.textContent=n.cap; box.appendChild(c); }
+  o.appendChild(box); document.body.appendChild(o); }
+
+/* ===== INIT ===== */
+renderDash();
+</script>
+</body>
+</html>
