@@ -1,0 +1,37 @@
+name: update-data
+
+# 매일 1회 정비몽땅 공지를 수집해 data.json 을 자동 갱신·커밋한다.
+# 커밋이 main 에 들어가면 GitHub Pages 가 자동 재배포한다.
+on:
+  schedule:
+    - cron: "0 21 * * *"      # UTC 21:00 = 한국시간(KST) 06:00
+  workflow_dispatch:           # Actions 탭에서 수동 실행 버튼도 제공
+
+permissions:
+  contents: write              # 봇이 data.json 을 커밋할 수 있도록
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install requests beautifulsoup4
+
+      - name: Collect data
+        run: python scripts/collect.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "auto-update-bot"
+          git config user.email "action@github.com"
+          git add data.json
+          git commit -m "chore: auto-update data.json ($(date -u +%F))" || echo "변경 없음 — 커밋 생략"
+          git push
