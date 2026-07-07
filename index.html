@@ -205,10 +205,10 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
 <footer>
   <div><b>데이터 출처</b></div>
   <div>정비사업 정보몽땅(고시/공고) &nbsp;|&nbsp; 서울정보소통광장(결재문서) &nbsp;|&nbsp; 진행현황·기본정보(정비몽땅·서울주택정보마당)</div>
-  <div class="ft-mail">웹페이지 오류 수정/제안 : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="49303c25283c3b2c277b79092e24282025672a2624">[email&#160;protected]</a></div>
+  <div class="ft-mail">웹페이지 오류 수정/제안 : <a id="mailto" href="#"></a></div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* =========================================================
    DATA LAYER — 전농15 단일 구역. 확장 시 REGIONS 추가 + CURRENT_ID 변경.
    ========================================================= */
@@ -461,6 +461,9 @@ async function boot(){
   renderDash();
 }
 boot();
+
+/* 푸터 이메일 — 자동 난독화 방지를 위해 JS로 조립 */
+(function(){ var a=document.getElementById("mailto"); if(a){ var e="yulauren20"+"@"+"gmail.com"; a.textContent=e; a.href="mailto:"+e; } })();
 </script>
 </body>
 </html>
