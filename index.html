@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>전농15 · 정비사업 현황 대시보드</title>
-<meta name="description" content="전농15구역 재개발(신속통합기획) 진행현황·일정·고시공고·소식지를 한 화면에서 제공하는 정비사업 현황 대시보드.">
+<meta name="description" content="전농15구역 재개발(신속통합기획) 진행현황·일정·고시공고·FAQ를 한 화면에서 제공하는 정비사업 현황 대시보드.">
 <meta property="og:title" content="전농15 · 정비사업 현황 대시보드">
-<meta property="og:description" content="전농15구역 재개발 진행현황·소유자 TO-DO·고시공고·구역 소식지 대시보드">
+<meta property="og:description" content="전농15구역 재개발 진행현황·소유자 TO-DO·고시공고·FAQ 대시보드">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css">
 <style>
@@ -144,6 +144,53 @@ header{position:sticky;top:0;z-index:40;background:rgba(11,15,30,.62);backdrop-f
 .lb-cap{background:#fff;color:#33415C;padding:13px 16px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;max-height:22vh;overflow:auto}
 footer{text-align:center;color:var(--t2);font-size:13.5px;padding:28px 20px;line-height:1.8;border-top:1px solid var(--bd2);margin-top:20px}
 footer .ft-mail{margin-top:10px;color:var(--t2)}
+
+/* ===== FAQ ===== */
+.faq-search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--bd);background:rgba(255,255,255,.06);
+ color:var(--t1);font-size:15.5px;font-family:inherit;margin-bottom:14px}
+.faq-search::placeholder{color:var(--t3)}
+.faq-search:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-weak)}
+.faq-list{display:flex;flex-direction:column;gap:10px}
+.faq-item{border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03)}
+.faq-item.open{border-color:rgba(110,139,255,.4)}
+.faq-q{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:15px 16px;font-size:16px;font-weight:700;color:var(--t1)}
+.faq-q .qtext{flex:1}
+.faq-q:hover{color:var(--acc-t)}
+.faq-ic{font-size:21px;font-weight:700;color:var(--acc-t);line-height:1;width:18px;text-align:center}
+.faq-a{padding:0 16px 16px;color:var(--t2);font-size:15.5px;line-height:1.65}
+.faq-a p{margin:0 0 8px}.faq-a p:last-child{margin:0}
+.faq-img{max-width:100%;border-radius:10px;margin:8px 0;display:block}
+
+/* ===== 한글 단어단위 줄바꿈(글자 낱개 쪼개짐 방지) ===== */
+.row,.notice .ti,.schd td,.evrow,.faq-q .qtext,.faq-a,.nn-w,.stagebtn .t{word-break:keep-all;overflow-wrap:anywhere}
+
+/* ===== 모바일 반응형 ===== */
+@media (max-width:600px){
+  body{font-size:16px}
+  .wrap{padding:18px 13px 48px}
+  header{padding:14px 16px}
+  .dhead{padding:20px 17px}
+  .dhead h1{font-size:23px}
+  .dhead .loc{font-size:14px}
+  .box{padding:17px 15px}
+  .box h4{font-size:16px}
+  .box h4.bigh{font-size:19px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .tabs{gap:6px}
+  .tab{padding:10px 15px;font-size:15px}
+  .tl li{padding-left:26px}
+  .tl .stagesub{margin-left:-18px}
+  /* 표를 세로 스택으로 → 좁은 화면에서 글자 세로 깨짐 방지 */
+  .schd,.schd tbody,.schd tr,.schd td{display:block;width:auto}
+  .schd tr{padding:11px 0;border-bottom:1px solid var(--w-bd)}
+  .schd tr:last-child{border:none}
+  .schd td{border:none!important;padding:2px 0}
+  .schd td.dt{font-size:14px;margin-bottom:2px;width:auto}
+  .schd td[style*="right"]{text-align:left!important}
+  .schd td[style*="right"] .dday{margin-top:5px}
+  .evrow{flex-wrap:wrap;gap:3px 11px}
+  .evrow .ed{min-width:0}
+}
 </style>
 </head>
 <body>
@@ -199,6 +246,7 @@ const REGIONS=[
      {step:"선거인명부 열람", date:"2026.06.22~07.08", start:"2026-06-22", end:"2026-07-08"},
      {step:"후보자 합동연설회", date:"2026.08.05", start:"2026-08-05", end:"2026-08-05"},
      {step:"예비추진위원장·예비감사 선거", date:"2026.08.08", start:"2026-08-08", end:"2026-08-08"},
+     {step:"선거 당선자 공고", date:"2026.08.10", start:"2026-08-10", end:"2026-08-10"},
      {step:"조합설립추진위 구성 동의서 징구", date:"2026.08~09", start:"2026-08-01", end:"2026-09-30", firm:false},
      {step:"추진위원회 승인(예정)", date:"2026.10월 말", start:"2026-10-25", end:"2026-10-31", firm:false}
    ],
@@ -229,11 +277,28 @@ const REGIONS=[
 ];
 const CURRENT_ID="jn15";
 
+/* FAQ — 수동 관리(자동화 대상 아님). 답변은 text/img 블록 배열로 이미지도 지원. */
+const FAQ=[
+ {q:"Q1. 전농15구역 권리산정 기준일은 언제인가요?", a:[
+   {type:"text", value:"2022년 1월 28일입니다."}
+ ]},
+ {q:"Q2. 추진준비위원회 사무실은 언제 운영하나요?", a:[
+   {type:"text", value:"평일 오전 9시~오후 6시 (점심시간: 오후 12~1시)"},
+   {type:"text", value:"재개발 관련 궁금하신 사항이나 서류 작성/제출 등 필요하신 경우 사무실로 전화주시거나 방문하시면 친절하게 안내해 드리겠습니다."}
+ ]},
+ {q:"Q3. 공공지원제도가 무엇인가요?", a:[
+   {type:"text", value:"시/구청으로부터 조합설립추진위원회 구성을 위한 지원을 받을 수 있는 제도입니다. 추진위원회 구성을 위한 예산을 지원받고, 정비사업 관련 업체를 공정하게 선정하도록 행정적 지원을 받습니다."},
+   {type:"text", value:"전농15구역은 본 공공지원제도를 통해 추진위원회 구성을 위한 정비사업전문관리업체 선정을 완료하였습니다."}
+   /* 이미지 추가 예시: {type:"img", src:"이미지주소.jpg"} */
+ ]}
+];
+
 /* ===== STATE ===== */
 const $=s=>document.querySelector(s);
 const get=id=>REGIONS.find(r=>r.id===id);
 let tab="진행현황";
-let albumSel=0;
+let faqQuery="";
+const faqOpen=new Set();
 
 function fmtDate(d){ if(!d) return ""; d=String(d).trim().replace(/[-/]/g,".").replace(/\.+$/,""); return d; }
 function cleanText(t){ return String(t).replace(/\s*[\(（]\s*\d{1,2}\s*\/\s*\d{1,2}\s*[\)）]\s*$/,"").trim(); }
@@ -252,8 +317,6 @@ function ddayBadge(iso){ const n=dday(iso); if(n===null||n<0) return "";
 function toggleStage(i){ const d=document.getElementById("sd-"+i); if(!d) return;
   const open=d.style.display!=="none"; d.style.display=open?"none":"block";
   const c=document.getElementById("chev-"+i); if(c) c.textContent=open?"▸":"▾"; }
-let news=[]; try{ news=JSON.parse(localStorage.getItem("jn15_news")||"[]"); }catch(e){}
-function saveNews(){ try{ localStorage.setItem("jn15_news",JSON.stringify(news)); }catch(e){} }
 
 /* 추진 주체·문의 (진행현황 맨 아래) */
 function contactBox(r){ return `<div class="box" style="margin-top:14px"><h4>추진 주체 · 문의</h4>
@@ -291,7 +354,7 @@ function renderDash(){
      </div>
    </div>
    ${ownerTodoBlock(r)}
-   <div class="tabs">${["진행현황","개요","고시·공고","구역 소식지"].map(t=>`<button class="tab ${t===tab?'on':''}" onclick="setTab('${t}')">${t}</button>`).join("")}</div>
+   <div class="tabs">${["진행현황","개요","고시·공고","FAQ"].map(t=>`<button class="tab ${t===tab?'on':''}" onclick="setTab('${t}')">${t}</button>`).join("")}</div>
    <div id="pane"></div>`;
   renderPane();
 }
@@ -360,56 +423,44 @@ function renderPane(){
     h+=`</div>`;
   }
 
-  else if(tab==="구역 소식지"){
-    h=`<div class="box"><h4>구역 소식지</h4>
-       <label class="uploader">＋ 사진 추가<input type="file" accept="image/*" multiple hidden onchange="addPhotos(this)"></label>`;
-    if(news.length){
-      if(albumSel>=news.length) albumSel=0;
-      const f=news[albumSel];
-      h+=`<div class="album">
-        <div class="album-main"><img src="${f.url}" onclick="lightbox('${f.id}')" alt="소식지"><div class="album-cap">${f.date} · 사진 ${news.length}장 · 사진을 누르면 설명이 보입니다</div></div>
-        <div class="album-strip">${news.map((n,idx)=>`
-          <div class="album-thumb ${idx===albumSel?'sel':''}" onclick="albumSel=${idx};renderPane()">
-            <img src="${n.url}" alt="">
-            <button class="nl-del" title="삭제" onclick="event.stopPropagation();delPhoto('${n.id}')">×</button>
-          </div>`).join("")}</div>
-      </div>`;
-    } else {
-      h+=`<div class="emptynote">아직 등록된 소식지가 없습니다. ‘＋ 사진 추가’로 소식지 이미지를 올리면 앨범 미리보기로 표시됩니다. 업로드 시 설명(500자 이내)을 입력하면 사진 클릭 시 보입니다.</div>`;
-    }
-    h+=`</div>`;
+  else if(tab==="FAQ"){
+    h=`<div class="box"><h4 class="bigh">자주 묻는 질문 (FAQ)</h4>
+       <input id="faqSearch" class="faq-search" type="text" placeholder="궁금한 키워드를 검색하세요" value="${(faqQuery||'').replace(/"/g,'&quot;')}" oninput="faqQuery=this.value;renderFaqList()">
+       <div class="faq-list" id="faqList"></div></div>`;
   }
 
   $("#pane").innerHTML=h;
+  if(tab==="FAQ") renderFaqList();
 }
 
-/* ===== 소식지 사진 ===== */
-function addPhotos(input){
-  const files=[...input.files]; if(!files.length) return;
-  let cap=prompt("이 소식지에 대한 설명을 입력하세요 (500자 이내, 선택)")||"";
-  cap=cap.slice(0,500);
-  let pending=files.length;
-  files.forEach(f=>{
-    if(!f.type.startsWith("image/")){ pending--; return; }
-    const rd=new FileReader();
-    rd.onload=e=>{ news.unshift({id:String(Date.now())+Math.floor(Math.random()*1000), date:new Date().toISOString().slice(0,10), url:e.target.result, cap:cap});
-      pending--; if(pending<=0){ albumSel=0; saveNews(); renderPane(); } };
-    rd.readAsDataURL(f);
-  });
-  input.value="";
+/* ===== FAQ ===== */
+function faqText(f){ return (f.q+" "+f.a.filter(x=>x.type==="text").map(x=>x.value).join(" ")); }
+function faqAnswer(a){ return a.map(x=> x.type==="img"
+    ? `<img class="faq-img" src="${x.src}" alt="첨부 이미지">`
+    : `<p>${x.value}</p>`).join(""); }
+function toggleFaq(gi){ if(faqOpen.has(gi)) faqOpen.delete(gi); else faqOpen.add(gi); renderFaqList(); }
+function renderFaqList(){
+  const box=document.getElementById("faqList"); if(!box) return;
+  const kw=(faqQuery||"").trim().toLowerCase();
+  const list=FAQ.filter(f=>!kw || faqText(f).toLowerCase().includes(kw));
+  if(!list.length){ box.innerHTML=`<div class="emptynote" style="margin:2px 0 0">검색 결과가 없습니다.</div>`; return; }
+  box.innerHTML=list.map(f=>{ const gi=FAQ.indexOf(f); const open=faqOpen.has(gi);
+    return `<div class="faq-item ${open?'open':''}">
+      <button class="faq-q" onclick="toggleFaq(${gi})"><span class="qtext">${f.q}</span><span class="faq-ic">${open?'−':'+'}</span></button>
+      <div class="faq-a" style="display:${open?'block':'none'}">${faqAnswer(f.a)}</div>
+    </div>`;}).join("");
 }
-function delPhoto(id){ if(!confirm("이 소식지 사진을 삭제할까요?")) return;
-  news=news.filter(n=>n.id!==id); if(albumSel>=news.length) albumSel=Math.max(0,news.length-1);
-  saveNews(); renderPane(); }
-function lightbox(id){ const n=news.find(x=>x.id===id); if(!n) return;
-  const o=document.createElement("div"); o.className="lb"; o.onclick=()=>o.remove();
-  const box=document.createElement("div"); box.className="lb-box";
-  const img=document.createElement("img"); img.src=n.url; box.appendChild(img);
-  if(n.cap){ const c=document.createElement("div"); c.className="lb-cap"; c.textContent=n.cap; box.appendChild(c); }
-  o.appendChild(box); document.body.appendChild(o); }
 
-/* ===== INIT ===== */
-renderDash();
+/* ===== INIT — data.json(고시/공고) 있으면 덮어쓰고 렌더. 없으면 내장 데이터로 동작 ===== */
+async function boot(){
+  try{
+    const res=await fetch("data.json?_="+Date.now(), {cache:"no-store"});
+    if(res.ok){ const d=await res.json();
+      if(d && Array.isArray(d.notices) && d.notices.length) REGIONS[0].notices=d.notices; }
+  }catch(e){ /* 로컬 file:// 등에서는 내장 데이터 사용 */ }
+  renderDash();
+}
+boot();
 </script>
 </body>
 </html>
