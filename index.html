@@ -18,7 +18,6 @@
  --acc-weak:rgba(110,139,255,.16);
  --red:#FF6B82; --red-t:#FF98A8; --red-weak:rgba(255,107,130,.16);
  --teal:#34D399;
- /* 라이트(라벤더 톤) 서브블록 */
  --w-bg:#EBEEF9; --w-bd:#D9DEF1; --w-t1:#27324A; --w-t2:#3F4A66; --w-t3:#697192; --w-acc:#3550C8;
  --r:20px; --sh:0 10px 30px rgba(5,8,22,.45);
 }
@@ -91,7 +90,7 @@ header{position:sticky;top:0;z-index:40;background:rgba(11,15,30,.62);backdrop-f
 .tl li.todo .stagebtn .chev{color:var(--t3)}
 .stagedetail{margin-top:10px}
 
-/* === 라이트 서브블록(일정 블록) — 타임라인 막대 위로, 폰트 통일 === */
+/* === 라이트 서브블록(일정 블록) === */
 .stagesub{position:relative;z-index:1;background:var(--w-bg);border:1px solid var(--w-bd);border-radius:14px;padding:14px 16px;box-shadow:0 4px 14px rgba(5,8,22,.22)}
 .tl .stagesub{margin-left:-24px}
 .stagesub .ssub-h{font-size:13px;font-weight:700;color:var(--w-t3);margin-bottom:10px;letter-spacing:.02em}
@@ -122,28 +121,13 @@ header{position:sticky;top:0;z-index:40;background:rgba(11,15,30,.62);backdrop-f
 .notice .mt{font-size:14px;color:var(--t2);margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .srcpill{font-size:13px;color:var(--acc-t);background:var(--acc-weak);border:1px solid rgba(110,139,255,.3);padding:2px 8px;border-radius:6px;font-weight:600}
 .emptynote{font-size:15px;color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--bd2);border-radius:12px;padding:13px 15px;margin-top:14px;line-height:1.6}
-
-/* newsletter album */
-.uploader{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:12px;background:var(--accg);
- color:#fff;font-weight:700;font-size:16px;margin-bottom:16px;box-shadow:0 6px 16px rgba(110,139,255,.38);transition:.15s}
-.uploader:hover{filter:brightness(1.08)}
-.album-main{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--bd);box-shadow:var(--sh)}
-.album-main img{width:100%;max-height:440px;object-fit:cover;display:block;cursor:zoom-in}
-.album-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;font-size:14px;color:#EAEFFF;font-weight:600;
- background:linear-gradient(transparent,rgba(0,0,0,.7))}
-.album-strip{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
-.album-thumb{position:relative;flex:0 0 86px;height:86px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:.15s}
-.album-thumb.sel{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-weak)}
-.album-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.nl-del{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.6);
- color:#fff;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
-.nl-del:hover{background:var(--red)}
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:90;display:flex;align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
-.lb-box{max-width:760px;max-height:92vh;display:flex;flex-direction:column;gap:12px}
-.lb-box img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:10px}
-.lb-cap{background:#fff;color:#33415C;padding:13px 16px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;max-height:22vh;overflow:auto}
 footer{text-align:center;color:var(--t2);font-size:13.5px;padding:28px 20px;line-height:1.8;border-top:1px solid var(--bd2);margin-top:20px}
 footer .ft-mail{margin-top:10px;color:var(--t2)}
+
+/* ===== 추진 주체·문의 — 라벨 한 줄 고정, 값 우측 정렬 ===== */
+.contact .row{align-items:baseline}
+.contact .row span{white-space:nowrap;flex:0 0 auto}
+.contact .row b{flex:1;min-width:0;text-align:right;padding-left:16px}
 
 /* ===== FAQ ===== */
 .faq-search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--bd);background:rgba(255,255,255,.06);
@@ -161,7 +145,7 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
 .faq-a p{margin:0 0 8px}.faq-a p:last-child{margin:0}
 .faq-img{max-width:100%;border-radius:10px;margin:8px 0;display:block}
 
-/* ===== 한글 단어단위 줄바꿈(글자 낱개 쪼개짐 방지) ===== */
+/* ===== 한글 단어단위 줄바꿈 ===== */
 .row,.notice .ti,.schd td,.evrow,.faq-q .qtext,.faq-a,.nn-w,.stagebtn .t{word-break:keep-all;overflow-wrap:anywhere}
 
 /* ===== 모바일 반응형 ===== */
@@ -180,7 +164,6 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
   .tab{padding:10px 15px;font-size:15px}
   .tl li{padding-left:26px}
   .tl .stagesub{margin-left:-18px}
-  /* 표를 세로 스택으로 → 좁은 화면에서 글자 세로 깨짐 방지 */
   .schd,.schd tbody,.schd tr,.schd td{display:block;width:auto}
   .schd tr{padding:11px 0;border-bottom:1px solid var(--w-bd)}
   .schd tr:last-child{border:none}
@@ -188,8 +171,9 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
   .schd td.dt{font-size:14px;margin-bottom:2px;width:auto}
   .schd td[style*="right"]{text-align:left!important}
   .schd td[style*="right"] .dday{margin-top:5px}
-  .evrow{flex-wrap:wrap;gap:3px 11px}
+  .evrow{flex-direction:column;gap:2px}
   .evrow .ed{min-width:0}
+  .contact .row b{font-size:14px}
 }
 </style>
 </head>
@@ -209,9 +193,6 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
 </footer>
 
 <script>
-/* =========================================================
-   DATA LAYER — 전농15 단일 구역. 확장 시 REGIONS 추가 + CURRENT_ID 변경.
-   ========================================================= */
 const REGIONS=[
  { id:"jn15", name:"전농15구역", gu:"동대문구", dong:"전농동", bjd:"11230",
    type:"신속통합기획", stageLabel:"구역지정 준비 중",
@@ -226,7 +207,6 @@ const REGIONS=[
      ["관리처분인가","",,"todo"],
      ["착공","",,"todo"]
    ],
-   /* 단계별 종합일정(날짜순) — 출처: 6월 주민설명회 자료(p.7) */
    stageEvents:{
      "대상지선정":[
        {d:"2023.07", t:"신속통합기획 후보지 신청"},
@@ -238,7 +218,6 @@ const REGIONS=[
        {d:"2025.06", t:"개략 계획(안) 주민설명회 개최"}
      ]
    },
-   /* '추진위원회 승인' 세부일정(날짜순) — status는 start/end·오늘 비교 자동 산정, D-day는 end 기준 */
    prepSchedule:[
      {step:"신통기획 자문회의·추진위 구성 공공지원 용역 착수", date:"2026.03.20", start:"2026-03-20", end:"2026-03-20"},
      {step:"주민설명회", date:"2026.06.12", start:"2026-06-12", end:"2026-06-12"},
@@ -250,14 +229,13 @@ const REGIONS=[
      {step:"조합설립추진위 구성 동의서 징구", date:"2026.08~09", start:"2026-08-01", end:"2026-09-30", firm:false},
      {step:"추진위원회 승인(예정)", date:"2026.10월 말", start:"2026-10-25", end:"2026-10-31", firm:false}
    ],
-   /* 소유자 TODO — due=마감일. 전 항목 마감 경과 시 상단 블록 자동 비표시 */
    residentTodos:[
      {t:"선거인명부 열람·확인", d:"2026.06.22~07.08", due:"2026-07-08", note:"공동소유자는 대표소유자 선임동의서 제출"},
      {t:"후보자 합동연설회 참석", d:"2026.08.05", time:"15:00", due:"2026-08-05", note:"장소 추후 통지 · 단독출마 시 생략"},
      {t:"예비추진위원장·감사 선거 참여", d:"2026.08.08", time:"09:00~18:00", due:"2026-08-08", note:"단독 출마 시 무투표 당선"},
      {t:"조합설립추진위 구성 동의서 제출", d:"2026.08~09월", due:"2026-09-30", firm:false, note:"신분증 사본 등 첨부 · 공공지원 사무실/우편"}
    ],
-   contact:{ body:"(가칭)전농15구역 재개발 추진준비위원회", head:"김완수", pm:"(주)부동산써브에스앤이",
+   contact:{ body:"(가칭)전농15구역 재개발 추진준비위원회", head:"김완수",
              office:"동대문구 망우로 18, 1층", tel:"02-2244-1346", cafe:"https://cafe.naver.com/jeonnong15" },
    notices:[
      {cat:"공지", date:"2026-06-04", title:"재개발사업 조합설립추진위원회 구성을 위한 주민설명회 개최 알림(전농동 152-65번지 일대)",
@@ -277,7 +255,7 @@ const REGIONS=[
 ];
 const CURRENT_ID="jn15";
 
-/* FAQ — 수동 관리(자동화 대상 아님). 답변은 text/img 블록 배열로 이미지도 지원. */
+/* FAQ — 수동 관리. 답변은 text/img 블록 배열로 이미지도 지원. */
 const FAQ=[
  {q:"Q1. 전농15구역 권리산정 기준일은 언제인가요?", a:[
    {type:"text", value:"2022년 1월 28일입니다."}
@@ -293,7 +271,6 @@ const FAQ=[
  ]}
 ];
 
-/* ===== STATE ===== */
 const $=s=>document.querySelector(s);
 const get=id=>REGIONS.find(r=>r.id===id);
 let tab="진행현황";
@@ -307,7 +284,6 @@ function schedStatus(it){ const T=todayISO();
   if(it.end && it.end < T) return "done";
   if(it.start && it.start <= T && (!it.end || T <= it.end)) return "now";
   return "todo"; }
-/* D-day는 '마감일(end/due)' 기준 */
 function dday(iso){ if(!iso) return null;
   const t=new Date(todayISO()+"T00:00:00"), d=new Date(iso+"T00:00:00");
   return Math.round((d-t)/86400000); }
@@ -318,16 +294,13 @@ function toggleStage(i){ const d=document.getElementById("sd-"+i); if(!d) return
   const open=d.style.display!=="none"; d.style.display=open?"none":"block";
   const c=document.getElementById("chev-"+i); if(c) c.textContent=open?"▸":"▾"; }
 
-/* 추진 주체·문의 (진행현황 맨 아래) */
-function contactBox(r){ return `<div class="box" style="margin-top:14px"><h4>추진 주체 · 문의</h4>
+function contactBox(r){ return `<div class="box contact" style="margin-top:14px"><h4>추진 주체 · 문의</h4>
     <div class="row"><span>추진주체</span><b>${r.contact.body}</b></div>
     <div class="row"><span>준비위원장</span><b>${r.contact.head}</b></div>
-    <div class="row"><span>정비사업전문관리업체</span><b>${r.contact.pm} (선정·계약 완료)</b></div>
     <div class="row"><span>사무실</span><b>${r.contact.office}</b></div>
     <div class="row"><span>연락처</span><b>${r.contact.tel}</b></div>
     <div class="row"><span>네이버 카페</span><b><a href="${r.contact.cafe}" target="_blank" rel="noopener">cafe.naver.com/jeonnong15 ↗</a></b></div></div>`; }
 
-/* 소유자 TO-DO Checklist (상단) — 진행현황 일정 규격(좌:일정 / 우:D-day). 전 항목 마감 경과 시 비표시 */
 function ownerTodoBlock(r){
   const T=todayISO();
   const active=r.residentTodos.filter(t=>!t.due || t.due>=T);
@@ -337,7 +310,6 @@ function ownerTodoBlock(r){
     <div class="stagesub"><table class="schd">${rows}</table></div></div>`;
 }
 
-/* ===== RENDER ===== */
 function renderDash(){
   const r=get(CURRENT_ID);
   $("#dash").innerHTML=`
@@ -433,7 +405,6 @@ function renderPane(){
   if(tab==="FAQ") renderFaqList();
 }
 
-/* ===== FAQ ===== */
 function faqText(f){ return (f.q+" "+f.a.filter(x=>x.type==="text").map(x=>x.value).join(" ")); }
 function faqAnswer(a){ return a.map(x=> x.type==="img"
     ? `<img class="faq-img" src="${x.src}" alt="첨부 이미지">`
@@ -451,19 +422,17 @@ function renderFaqList(){
     </div>`;}).join("");
 }
 
-/* ===== INIT — data.json(고시/공고) 있으면 덮어쓰고 렌더. 없으면 내장 데이터로 동작 ===== */
 async function boot(){
   try{
     const res=await fetch("data.json?_="+Date.now(), {cache:"no-store"});
     if(res.ok){ const d=await res.json();
       if(d && Array.isArray(d.notices) && d.notices.length) REGIONS[0].notices=d.notices; }
-  }catch(e){ /* 로컬 file:// 등에서는 내장 데이터 사용 */ }
+  }catch(e){}
   renderDash();
 }
 boot();
 
 /* 푸터 이메일 — 자동 난독화 방지를 위해 JS로 조립 */
-(function(){ var a=document.getElementById("mailto"); if(a){ var e="yulauren20"+"@"+"gmail.com"; a.textContent=e; a.href="mailto:"+e; } })();
-</script>
+(function(){ var a=document.getElementById("mailto"); if(a){ var e="lauren20"+"@"+"kaist.ac.kr"; a.textContent=e; a.href="mailto:"+e; } })();</script>
 </body>
 </html>
