@@ -158,6 +158,9 @@ footer .ft-mail{margin-top:10px;color:var(--t2)}
 .faq-a{padding:0 16px 16px;color:var(--t2);font-size:15.5px;line-height:1.65}
 .faq-a p{margin:0 0 8px}.faq-a p:last-child{margin:0}
 .faq-img{max-width:100%;border-radius:10px;margin:8px 0;display:block}
+.faq-ul{margin:8px 0 0;padding:0;list-style:none}
+.faq-ul li{position:relative;padding:5px 0 5px 16px;color:var(--t2)}
+.faq-ul li::before{content:"•";position:absolute;left:2px;color:var(--acc-t);font-weight:800}
 /* ===== 한글 단어단위 줄바꿈(글자 낱개 쪼개짐 방지) ===== */
 .row,.notice .ti,.schd td,.evrow,.faq-q .qtext,.faq-a,.nn-w,.stagebtn .t{word-break:keep-all;overflow-wrap:anywhere}
 /* ===== 모바일 반응형 ===== */
@@ -231,7 +234,8 @@ const REGIONS=[
      ],
      "정비구역지정":[
        {d:"2024.12", t:"정비계획 수립·정비구역 지정 용역 착수"},
-       {d:"2025.06", t:"개략 계획(안) 주민설명회 개최"}
+       {d:"2025.06", t:"개략 계획(안) 주민설명회 개최"},
+       {d:"2026.08.21", t:"구·시청 개최 주민설명회 (건축계획 등 포함)"}
      ]
    },
    /* '추진위원회 승인' 세부일정(날짜순) — status는 start/end·오늘 비교 자동 산정, D-day는 end 기준 */
@@ -251,6 +255,7 @@ const REGIONS=[
      {t:"선거인명부 열람·확인", d:"2026.06.22~07.08", due:"2026-07-08", note:"공동소유자는 대표소유자 선임동의서 제출"},
      {t:"후보자 합동연설회 참석", d:"2026.08.06", time:"16:00", due:"2026-08-06", note:`<a href="https://naver.me/xIeSyCe4" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">장소: 청량리동 주민센터 대강당(주민센터 4층)</a> · 신분증 지참`},
      {t:"예비추진위원장·감사 선거 참여", d:"2026.08.08", time:"09:00~18:00", due:"2026-08-08", note:`<a href="https://naver.me/xVRg2K27" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">투표·개표 장소: 수복경로당</a> · 신분증 지참`},
+     {t:"구·시청 개최 주민설명회 (건축계획 등 포함)", d:"2026.08.21", time:"19:00~21:00", due:"2026-08-21", note:`<a href="https://naver.me/57VZZdYh" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">장소: 동대문구청 2층 다목적강당</a> · ※ 소유주 참석 원칙 (신분증 지참)`},
      {t:"조합설립추진위 구성 동의서 제출", d:"2026.08~09월", due:"2026-09-30", firm:false, note:"신분증 사본 등 첨부 · 공공지원 사무실/우편"}
    ],
    contact:{ body:"(가칭)전농15구역 재개발 추진준비위원회", head:"김완수", pm:"(주)부동산써브에스앤이",
@@ -300,6 +305,17 @@ const FAQ=[
  {q:"Q7. 반대파였던 일부 소유주가 주장하는 내용은 무엇인가요?", a:[
    {type:"text", value:"대표적인 주장은 현대아파트 포함으로 구역 사업성이 악화되니 제척시키고 진행하자는 내용입니다. 하지만 사실은 다릅니다. 재개발 사업성은 단순히 결정되지 않습니다. 현대아파트는 전농15구역 내 유일한 3종 주거지로, 전농15구역의 기준용적률을 상향시키고 있습니다. 이를 통해 구역 전체가 용적률 인센티브를 얻어 약 300%(297.6%) 수준의 법적상한 용적률을 받을 수 있게 되었습니다. 이는 분양 세대 증가로 일반분양 수익이 증대되는 효과로 이어지며, 전체 세대수 증가는 대단지 프리미엄(시공사 협상력, 커뮤니티 시설, 향후 관리비 효율성 등)에 기여하는 요인이 됩니다."},
    {type:"text", value:"반면, 제척으로 인한 구역계 변경 갈등은 결국 사업을 지연시키게 되어 총 사업비를 증가시키는 요소가 됩니다. (자세한 내용은 전농15구역 <a href=\"https://cafe.naver.com/jeonnong15?iframe_url_utf8=%2FArticleRead.nhn%253Fclubid%3D31327873%2526articleid%3D270%2526referrerAllArticles%3Dtrue\" target=\"_blank\" rel=\"noopener\">네이버 카페 글</a>을 참고해 주세요.)"}
+ ]},
+ {q:"Q8. 추진위 선거 이후 일정이 어떻게 되나요?", a:[
+   {type:"text", value:"향후 추진 일정입니다. 단계별 동의서 징구 시 소유주분들께서 적극적으로 협조해주시면 빠르게 진행할 수 있습니다."},
+   {type:"list", items:[
+     "2026년 9-10월: 추진위 설립",
+     "2026년 11월: 구역지정 공람 공고",
+     "2026년 12월-2027년 상반기: 구역지정",
+     "2027년 상반기 내: 조합설립인가",
+     "2027년 2분기: 시공사 입찰 공고",
+     "2027년 3-4분기: 시공사 선정"
+   ]}
  ]}
 ];
 /* ===== STATE ===== */
@@ -328,8 +344,8 @@ function toggleStage(i){ const d=document.getElementById("sd-"+i); if(!d) return
 /* 추진 주체·문의 (진행현황 맨 아래) */
 function contactBox(r){ return `<div class="box contact" style="margin-top:14px"><h4>추진 주체 · 문의</h4>
     <div class="row"><span>추진주체</span><b>${r.contact.body}</b></div>
-    <div class="row"><span>준비위원장</span><b>${r.contact.head}</b></div>
-    <div class="row"><span>준비위원회 사무실</span><b><a href="https://naver.me/G6R45oKS" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">${r.contact.office}</a></b></div>
+    <div class="row"><span>예비 추진위원장</span><b>${r.contact.head}</b></div>
+    <div class="row"><span>추진준비위원회 사무실</span><b><a href="https://naver.me/G6R45oKS" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">${r.contact.office}</a></b></div>
     <div class="row"><span>연락처</span><b>${r.contact.tel}</b></div>
     <div class="row"><span>네이버 카페</span><b><a href="${r.contact.cafe}" target="_blank" rel="noopener">cafe.naver.com/jeonnong15 ↗</a></b></div></div>`; }
 /* 소유자 TO-DO Checklist (상단) — 진행현황 일정 규격(좌:일정 / 우:D-day). 전 항목 마감 경과 시 비표시 */
@@ -428,10 +444,11 @@ function renderPane(){
   if(tab==="FAQ") renderFaqList();
 }
 /* ===== FAQ ===== */
-function faqText(f){ return (f.q+" "+f.a.filter(x=>x.type==="text").map(x=>x.value).join(" ")); }
-function faqAnswer(a){ return a.map(x=> x.type==="img"
-    ? `<img class="faq-img" src="${x.src}" alt="첨부 이미지">`
-    : `<p>${x.value}</p>`).join(""); }
+function faqText(f){ return (f.q+" "+f.a.map(x=> x.type==="list"?(x.items||[]).join(" "):(x.value||"")).join(" ")); }
+function faqAnswer(a){ return a.map(x=>
+    x.type==="img"  ? `<img class="faq-img" src="${x.src}" alt="첨부 이미지">`
+  : x.type==="list" ? `<ul class="faq-ul">${x.items.map(li=>`<li>${li}</li>`).join("")}</ul>`
+  : `<p>${x.value}</p>`).join(""); }
 function toggleFaq(gi){ if(faqOpen.has(gi)) faqOpen.delete(gi); else faqOpen.add(gi); renderFaqList(); }
 function renderFaqList(){
   const box=document.getElementById("faqList"); if(!box) return;
