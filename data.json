@@ -1,6 +1,14 @@
 {
-  "updatedAt": "2026-11-26 12:15 KST",
+  "updatedAt": "2026-11-27 12:20 KST",
   "notices": [
+    {
+      "cat": "공지",
+      "title": "전농동 152-65번지 일대(가칭 전농15구역) 주택정비형 재개발사업 조합설립추진위원회 승인 고시",
+      "date": "2026-11-26",
+      "by": "정비몽땅 · 조합 공지",
+      "real": true,
+      "url": "https://cleanup.seoul.go.kr/assc/bbs-use/vscrGnrl.do?cafeId=230900001492G47&bbsSn=13465&cpage=1&searchCode=&searchValue=&streSttusCode=0&nttSn=179543&menuId=100"
+    },
     {
       "cat": "공지",
       "title": "전농동 152-65번지 일대 정비구역 지정 및 정비계획(안) 입안을 위한 공람공고",
@@ -72,14 +80,6 @@
       "by": "정비몽땅 · 조합 공지",
       "real": true,
       "url": "https://cleanup.seoul.go.kr/assc/bbs-use/vscrGnrl.do?cafeId=230900001492G47&bbsSn=13465&cpage=1&searchCode=&searchValue=&streSttusCode=0&nttSn=176262&menuId=100"
-    },
-    {
-      "cat": "공지",
-      "title": "재개발사업 조합설립추진위원회 구성을 위한 주민설명회 개최 알림(전농동 152-65번지 일대)",
-      "date": "2026-06-04",
-      "by": "정비몽땅 · 조합 공지",
-      "real": true,
-      "url": "https://cleanup.seoul.go.kr/assc/bbs-use/vscrGnrl.do?cafeId=230900001492G47&bbsSn=13465&cpage=1&searchCode=&searchValue=&streSttusCode=0&nttSn=176124&menuId=100"
     },
     {
       "cat": "결재",
